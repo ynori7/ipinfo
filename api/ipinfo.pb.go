@@ -20,6 +20,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+//These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned
 type IpLookupResponse_Error int32
 
 const (

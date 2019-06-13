@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package api;
+
+message ErrorResponse {
+    int32 statusCode = 1; //The HTTP status code
+    string errorCode = 2; //Part of the enum defined in the handler response
+    string title     = 3;
+    string message   = 4;
+    bool retriable   = 5; //Whether the request makes sense to retry
+}

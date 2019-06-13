@@ -14,6 +14,7 @@ message IpLookupResponse {
     repeated string hostnames = 2;
     Location geolocation = 3;
 
+    //These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned
     enum Error {
         INVALID_IP     = 0; //400
         INTERNAL_ERROR = 1; //500

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -22,22 +23,24 @@ func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	ip, ok := vars["ipAddress"]
 	if !ok {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error":"missing ip"}`)) //TODO: errors
+		log.Println("Missing ip in request")
+		ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP", "Empty IP in request").WriteError(w)
 		return
 	}
 
+	log.Printf("Handling request. ip=%s\n", ip)
+
 	if !model.IsValidIpAddress(ip) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(`{"error":"invalid ip"}`)) //TODO: errors
+		log.Printf("Invalid ip in request: %s\n", ip)
+		ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP","Invalid IP in request").WriteError(w)
 		return
 	}
 
 	geoLocationData, err := h.GeoLocationRepository.GetGeoLocation(ip)
 	if err != nil {
-		//TODO: logging
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error":"invalid json"}`)) //TODO: errors
+		log.Printf("Error getting geolocation data for %s: %s\n", ip, err.Error())
+		ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
+		return
 	}
 
 
@@ -56,8 +59,8 @@ func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
 
 	jsonRes, err := json.Marshal(ipData)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error":"invalid json"}`)) //TODO: errors
+		log.Printf("Error marshalling response for %s: %s\n", ip, err.Error())
+		ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
 		return
 	}
 
