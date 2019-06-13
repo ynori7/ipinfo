@@ -3,6 +3,26 @@ syntax = "proto3";
 package api;
 
 /*
+GET /ip
+*/
+message WhatsMyIpRequest {
+    //The IP is found in the request headers
+}
+
+message WhatsMyIpResponse {
+    string ip = 1;
+    string forwardedFor = 2;
+    repeated string hostnames = 3;
+    Location geolocation = 4;
+
+    //These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned
+    enum Error {
+        INVALID_IP     = 0; //400
+        INTERNAL_ERROR = 1; //500
+    }
+}
+
+/*
 GET /ip/123.45.67.89
 */
 message IpLookupRequest {

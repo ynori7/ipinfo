@@ -190,9 +190,21 @@
                   <a href="#api.Location"><span class="badge">M</span>Location</a>
                 </li>
               
+                <li>
+                  <a href="#api.WhatsMyIpRequest"><span class="badge">M</span>WhatsMyIpRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.WhatsMyIpResponse"><span class="badge">M</span>WhatsMyIpResponse</a>
+                </li>
+              
               
                 <li>
                   <a href="#api.IpLookupResponse.Error"><span class="badge">E</span>IpLookupResponse.Error</a>
+                </li>
+              
+                <li>
+                  <a href="#api.WhatsMyIpResponse.Error"><span class="badge">E</span>WhatsMyIpResponse.Error</a>
                 </li>
               
               
@@ -333,9 +345,84 @@
 
         
       
+        <h3 id="api.WhatsMyIpRequest">WhatsMyIpRequest</h3>
+        <p>GET /ip</p><p>The IP is found in the request headers</p>
+
+        
+
+        
+      
+        <h3 id="api.WhatsMyIpResponse">WhatsMyIpResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ip</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>forwardedFor</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>hostnames</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>geolocation</td>
+                  <td><a href="#api.Location">Location</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
         <h3 id="api.IpLookupResponse.Error">IpLookupResponse.Error</h3>
+        <p>These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>INVALID_IP</td>
+                <td>0</td>
+                <td><p>400</p></td>
+              </tr>
+            
+              <tr>
+                <td>INTERNAL_ERROR</td>
+                <td>1</td>
+                <td><p>500</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="api.WhatsMyIpResponse.Error">WhatsMyIpResponse.Error</h3>
         <p>These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned</p>
         <table class="enum-table">
           <thead>

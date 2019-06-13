@@ -9,6 +9,9 @@ func NewRouter(
 ) *mux.Router {
 	r := mux.NewRouter()
 
+	r.HandleFunc("/ip", ipHandler.WhatsMyIp).
+		Methods("GET")
+
 	r.HandleFunc("/ip/{ipAddress}", ipHandler.Lookup).
 		Methods("GET")
 

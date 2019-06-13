@@ -2,7 +2,14 @@ package model
 
 import (
 	"net"
+	"net/http"
+	"strings"
 )
+
+type IP struct {
+	IpAddress    string
+	ForwardedFor string
+}
 
 func IsValidIpAddress(ipAddress string) bool {
 	parsedIp := net.ParseIP(ipAddress)
@@ -15,4 +22,15 @@ func ResolveHost(ipAddress string) []string {
 		return nil
 	}
 	return names
+}
+
+func GetIpFromRequest(r *http.Request) IP {
+	ip := IP{ForwardedFor: r.Header.Get("X-Forwarded-For")}
+
+	ipParts := strings.Split(r.RemoteAddr, ":")
+	if len(ipParts) > 0 {
+		ip.IpAddress = ipParts[0]
+	}
+
+	return ip
 }
