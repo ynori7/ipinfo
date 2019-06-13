@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api;
+
+/*
+GET /ip/123.45.67.89
+*/
+message IpLookupRequest {
+    string ip = 1; //This is a GET parameter in the URL
+}
+
+message IpLookupResponse {
+    string ip = 1;
+    repeated string hostnames = 2;
+    Location geolocation = 3;
+
+    enum Error {
+        INVALID_IP     = 0; //400
+        INTERNAL_ERROR = 1; //500
+    }
+}
+
+message Location {
+    string country_code = 1;
+    string country  = 2;
+    string city     = 3;
+    double lat      = 4;
+    double long     = 5;
+    string timezone = 6;
+}
