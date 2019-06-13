@@ -24,7 +24,7 @@ func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
 	ip, ok := vars["ipAddress"]
 	if !ok {
 		log.Println("Missing ip in request")
-		ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP", "Empty IP in request").WriteError(w)
+		api.ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP", "Empty IP in request").WriteError(w)
 		return
 	}
 
@@ -32,14 +32,14 @@ func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
 
 	if !model.IsValidIpAddress(ip) {
 		log.Printf("Invalid ip in request: %s\n", ip)
-		ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP", "Invalid IP in request").WriteError(w)
+		api.ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP", "Invalid IP in request").WriteError(w)
 		return
 	}
 
 	geoLocationData, err := h.GeoLocationRepository.GetGeoLocation(ip)
 	if err != nil {
 		log.Printf("Error getting geolocation data for %s: %s\n", ip, err.Error())
-		ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
+		api.ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
 		return
 	}
 
@@ -59,7 +59,7 @@ func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
 	jsonRes, err := json.Marshal(ipData)
 	if err != nil {
 		log.Printf("Error marshalling response for %s: %s\n", ip, err.Error())
-		ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
+		api.ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
 		return
 	}
 
@@ -74,14 +74,14 @@ func (h *IpHandler) WhatsMyIp(w http.ResponseWriter, r *http.Request) {
 
 	if !model.IsValidIpAddress(ip.IpAddress) {
 		log.Printf("Invalid ip in request: %s\n", ip.IpAddress)
-		ErrBadRequest(api.WhatsMyIpResponse_INVALID_IP.String(), "Invalid IP", "Invalid IP in request").WriteError(w)
+		api.ErrBadRequest(api.WhatsMyIpResponse_INVALID_IP.String(), "Invalid IP", "Invalid IP in request").WriteError(w)
 		return
 	}
 
 	geoLocationData, err := h.GeoLocationRepository.GetGeoLocation(ip.IpAddress)
 	if err != nil {
 		log.Printf("Error getting geolocation data for %s: %s\n", ip.IpAddress, err.Error())
-		ErrInternalServerError(api.WhatsMyIpResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
+		api.ErrInternalServerError(api.WhatsMyIpResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
 		return
 	}
 
@@ -102,7 +102,7 @@ func (h *IpHandler) WhatsMyIp(w http.ResponseWriter, r *http.Request) {
 	jsonRes, err := json.Marshal(ipData)
 	if err != nil {
 		log.Printf("Error marshalling response for %s: %s\n", ip, err.Error())
-		ErrInternalServerError(api.WhatsMyIpResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
+		api.ErrInternalServerError(api.WhatsMyIpResponse_INTERNAL_ERROR.String(), "Internal Server Error,", "Something went wrong").WriteError(w)
 		return
 	}
 

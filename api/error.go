@@ -1,54 +1,50 @@
-package handler
+package api
 
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/ynori7/ipinfo/api"
 )
 
-type Error api.ErrorResponse
-
-func ErrNotFound(errorCode string, title, message string) *Error {
+func ErrNotFound(errorCode string, title, message string) *ErrorResponse {
 	return NewErrorResponse(http.StatusNotFound, "", "", message, false)
 }
 
-func ErrBadRequest(errorCode string, title, message string) *Error {
+func ErrBadRequest(errorCode string, title, message string) *ErrorResponse {
 	return NewErrorResponse(http.StatusBadRequest, errorCode, "", message, false)
 }
 
-func ErrInternalServerError(errorCode string, title, message string) *Error {
+func ErrInternalServerError(errorCode string, title, message string) *ErrorResponse {
 	return NewErrorResponse(http.StatusInternalServerError, "", "", message, true)
 }
 
 // WithMessage returns a copy of a given error and overrides its messages
-func (e *Error) WithMessage(message string) *Error {
+func (e *ErrorResponse) WithMessage(message string) *ErrorResponse {
 	return NewErrorResponse(e.StatusCode, e.ErrorCode, e.Title, message, e.Retriable)
 }
 
 // WithErrorCode returns a copy of a given error and overrides its messages
-func (e *Error) WithErrorCode(errorCode string) *Error {
+func (e *ErrorResponse) WithErrorCode(errorCode string) *ErrorResponse {
 	return NewErrorResponse(e.StatusCode, errorCode, e.Title, e.Message, e.Retriable)
 }
 
 // WithTitle returns a copy of a given error and overrides its title
-func (e *Error) WithTitle(title string) *Error {
+func (e *ErrorResponse) WithTitle(title string) *ErrorResponse {
 	return NewErrorResponse(e.StatusCode, e.ErrorCode, title, e.Message, e.Retriable)
 }
 
-func (err *Error) Error() string {
+func (err *ErrorResponse) Error() string {
 	b, _ := json.Marshal(err)
 	return string(b)
 }
 
-func (err *Error) WriteError(w http.ResponseWriter) {
+func (err *ErrorResponse) WriteError(w http.ResponseWriter) {
 	jsonRes, _ := json.Marshal(err)
 	w.WriteHeader(int(err.StatusCode))
 	w.Write(jsonRes)
 }
 
-func NewErrorResponse(statusCode int32, errorCode string, title string, message string, retriable bool) *Error {
-	return &Error{
+func NewErrorResponse(statusCode int32, errorCode string, title string, message string, retriable bool) *ErrorResponse {
+	return &ErrorResponse{
 		StatusCode: statusCode,
 		ErrorCode:  errorCode,
 		Title:      title,
