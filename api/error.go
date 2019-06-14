@@ -37,10 +37,11 @@ func (err *ErrorResponse) Error() string {
 	return string(b)
 }
 
-func (err *ErrorResponse) WriteError(w http.ResponseWriter) {
+func (err *ErrorResponse) WriteResponse(w http.ResponseWriter) error {
 	jsonRes, _ := json.Marshal(err)
 	w.WriteHeader(int(err.StatusCode))
-	w.Write(jsonRes)
+	_, e := w.Write(jsonRes)
+	return e
 }
 
 func NewErrorResponse(statusCode int32, errorCode string, title string, message string, retriable bool) *ErrorResponse {

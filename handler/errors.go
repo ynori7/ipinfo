@@ -12,6 +12,8 @@ const (
 	WHATS_MY_IP
 )
 
+var GenericError = api.ErrInternalServerError("", InternalErrorMessage, InternalErrorMessage)
+
 const (
 	InternalErrorMessage = "Internal Server Error"
 )
@@ -26,11 +28,11 @@ var ErrorMapping = map[ApiEndpoint]map[string]*api.ErrorResponse{
 	LOOKUP_IP: {
 		MissingIp:     api.ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP", "Empty IP in request"),
 		InvalidIp:     api.ErrBadRequest(api.IpLookupResponse_INVALID_IP.String(), "Invalid IP", "Invalid IP in request"),
-		InternalError: api.ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), "Internal Server Error", "Something went wrong"),
+		InternalError: api.ErrInternalServerError(api.IpLookupResponse_INTERNAL_ERROR.String(), InternalErrorMessage, "Something went wrong"),
 	},
 	WHATS_MY_IP: {
 		InvalidIp:     api.ErrBadRequest(api.WhatsMyIpResponse_INVALID_IP.String(), "Invalid IP", "Invalid IP in request"),
-		InternalError: api.ErrInternalServerError(api.WhatsMyIpResponse_INTERNAL_ERROR.String(), "Internal Server Error", "Something went wrong"),
+		InternalError: api.ErrInternalServerError(api.WhatsMyIpResponse_INTERNAL_ERROR.String(), InternalErrorMessage, "Something went wrong"),
 	},
 }
 
@@ -40,7 +42,7 @@ func GetMappedError(endpoint ApiEndpoint, errorKey string) *api.ErrorResponse {
 		errorKey = InternalError
 		err, ok = ErrorMapping[endpoint][errorKey]
 		if !ok {
-			return api.ErrInternalServerError("", "", InternalErrorMessage)
+			return GenericError
 		}
 	}
 
