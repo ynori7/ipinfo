@@ -47,7 +47,7 @@ func (h *IpHandler) LookupIp(w http.ResponseWriter, r *http.Request) api.HttpRes
 
 func (h *IpHandler) WhatsMyIp(w http.ResponseWriter, r *http.Request) api.HttpResponseWriter {
 	ip := model.GetIpFromRequest(r)
-	logger := log.WithFields(log.Fields{"Handler": "WhatsMyIp", "IP": ip.IpAddress})
+	logger := log.WithFields(log.Fields{"Handler": "WhatsMyIp", "IP": ip.IpAddress, "ForwardedFor": ip.ForwardedFor})
 
 	logger.Info("Handling request")
 

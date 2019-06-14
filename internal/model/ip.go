@@ -69,5 +69,10 @@ func GetIpFromRequest(r *http.Request) IP {
 		ip.IpAddress = ipParts[0]
 	}
 
+	cloudFlareIp := r.Header.Get("CF-Connecting-IP")
+	if cloudFlareIp != "" {
+		ip.IpAddress = cloudFlareIp
+	}
+
 	return ip
 }
