@@ -6,5 +6,4 @@ require (
 	github.com/oschwald/geoip2-golang v1.3.0
 	github.com/oschwald/maxminddb-golang v1.3.1 // indirect
 	github.com/sirupsen/logrus v1.4.2
-	golang.org/x/sys v0.0.0-20190613124609-5ed2794edfdc // indirect
 )

@@ -7,6 +7,12 @@ import (
 	"strings"
 )
 
+const (
+	IpV4Localhost = "127.0.0.1"
+	IpV6Localhost = "::1"
+	Localhost     = "localhost"
+)
+
 type IP struct {
 	IpAddress    string
 	ForwardedFor string
@@ -28,6 +34,9 @@ func GetHostnamesByIp(ipAddress string) []string {
 func GetHostnamesByIpList(ipAddresses []string) []string {
 	var names []string
 	for _, ip := range ipAddresses {
+		if ip == IpV4Localhost || ip == IpV6Localhost {
+			continue
+		}
 		hosts := GetHostnamesByIp(ip)
 		if hosts != nil {
 			names = append(names, hosts...)
