@@ -12,7 +12,7 @@ func NewRouter(
 	r.HandleFunc("/ip", ipHandler.WhatsMyIp).
 		Methods("GET")
 
-	r.HandleFunc("/ip/{ipAddress}", ipHandler.Lookup).
+	r.HandleFunc("/ip/{ipAddress}", ipHandler.LookupIp).
 		Methods("GET")
 
 	return r

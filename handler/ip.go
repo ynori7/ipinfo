@@ -2,10 +2,10 @@ package handler
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	log "github.com/sirupsen/logrus"
 	"github.com/ynori7/ipinfo/api"
 	"github.com/ynori7/ipinfo/internal/model"
 	"github.com/ynori7/ipinfo/internal/repository"
@@ -19,26 +19,29 @@ func NewIpHandler(geoIpRepo *repository.GeoLocationRepository) *IpHandler {
 	return &IpHandler{GeoLocationRepository: geoIpRepo}
 }
 
-func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
+func (h *IpHandler) LookupIp(w http.ResponseWriter, r *http.Request) {
+	logger := log.WithFields(log.Fields{"Handler": "LookupIp"})
+
 	vars := mux.Vars(r)
 	ip, ok := vars["ipAddress"]
 	if !ok {
-		log.Println("Missing ip in request")
+		logger.Debug("Missing ip in request")
 		GetMappedError(LOOKUP_IP, MissingIp).WriteError(w)
 		return
 	}
 
-	log.Printf("Handling Lookup request. ip=%s\n", ip)
+	logger = logger.WithFields(log.Fields{"IP": ip})
+	logger.Info("Handling request")
 
 	if !model.IsValidIpAddress(ip) {
-		log.Printf("Invalid ip in request: %s\n", ip)
+		logger.Debug("Invalid ip in request")
 		GetMappedError(LOOKUP_IP, InvalidIp).WriteError(w)
 		return
 	}
 
 	geoLocationData, err := h.GeoLocationRepository.GetGeoLocation(ip)
 	if err != nil {
-		log.Printf("Error getting geolocation data for %s: %s\n", ip, err.Error())
+		logger.WithFields(log.Fields{"error": err}).Error("Error getting geolocation data")
 		GetMappedError(LOOKUP_IP, InternalError).WriteError(w)
 		return
 	}
@@ -58,7 +61,7 @@ func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
 
 	jsonRes, err := json.Marshal(ipData)
 	if err != nil {
-		log.Printf("Error marshalling response for %s: %s\n", ip, err.Error())
+		logger.WithFields(log.Fields{"error": err}).Error("Error marshalling response")
 		GetMappedError(LOOKUP_IP, InternalError).WriteError(w)
 		return
 	}
@@ -69,18 +72,19 @@ func (h *IpHandler) Lookup(w http.ResponseWriter, r *http.Request) {
 
 func (h *IpHandler) WhatsMyIp(w http.ResponseWriter, r *http.Request) {
 	ip := model.GetIpFromRequest(r)
+	logger := log.WithFields(log.Fields{"Handler": "WhatsMyIp", "IP": ip.IpAddress})
 
-	log.Printf("Handling WhatsMyIp request. ip=%s\n", ip.IpAddress)
+	logger.Info("Handling request")
 
 	if !model.IsValidIpAddress(ip.IpAddress) {
-		log.Printf("Invalid ip in request: %s\n", ip.IpAddress)
+		logger.Debug("Invalid ip in request")
 		GetMappedError(WHATS_MY_IP, InvalidIp).WriteError(w)
 		return
 	}
 
 	geoLocationData, err := h.GeoLocationRepository.GetGeoLocation(ip.IpAddress)
 	if err != nil {
-		log.Printf("Error getting geolocation data for %s: %s\n", ip.IpAddress, err.Error())
+		logger.WithFields(log.Fields{"error": err}).Error("Error getting geolocation data")
 		GetMappedError(WHATS_MY_IP, InternalError).WriteError(w)
 		return
 	}
@@ -101,7 +105,7 @@ func (h *IpHandler) WhatsMyIp(w http.ResponseWriter, r *http.Request) {
 
 	jsonRes, err := json.Marshal(ipData)
 	if err != nil {
-		log.Printf("Error marshalling response for %s: %s\n", ip, err.Error())
+		logger.WithFields(log.Fields{"error": err}).Error("Error marshalling response")
 		GetMappedError(WHATS_MY_IP, InternalError).WriteError(w)
 		return
 	}
