@@ -25,11 +25,11 @@ message WhatsMyIpResponse {
 /*
 GET /ip/123.45.67.89
 */
-message IpLookupRequest {
+message LookupIpRequest {
     string ip = 1; //This is a GET parameter in the URL
 }
 
-message IpLookupResponse {
+message LookupIpResponse {
     string ip = 1;
     repeated string hostnames = 2;
     Location geolocation = 3;
@@ -38,6 +38,26 @@ message IpLookupResponse {
     enum Error {
         INVALID_IP     = 0; //400
         INTERNAL_ERROR = 1; //500
+    }
+}
+
+/*
+GET /host/ipinfo.xyz
+*/
+message LookupHostRequest {
+    string ip = 1; //This is a GET parameter in the URL
+}
+
+message LookupHostResponse {
+    repeated string ips = 1;
+    repeated string hostnames = 2;
+    Location geolocation = 3;
+
+    //These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned
+    enum Error {
+        INVALID_HOSTNAME = 0; //400
+        INTERNAL_ERROR   = 1; //500
+        NOT_FOUND        = 2; //404
     }
 }
 

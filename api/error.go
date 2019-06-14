@@ -6,15 +6,15 @@ import (
 )
 
 func ErrNotFound(errorCode string, title, message string) *ErrorResponse {
-	return NewErrorResponse(http.StatusNotFound, "", "", message, false)
+	return NewErrorResponse(http.StatusNotFound, errorCode, title, message, false)
 }
 
 func ErrBadRequest(errorCode string, title, message string) *ErrorResponse {
-	return NewErrorResponse(http.StatusBadRequest, errorCode, "", message, false)
+	return NewErrorResponse(http.StatusBadRequest, errorCode, title, message, false)
 }
 
 func ErrInternalServerError(errorCode string, title, message string) *ErrorResponse {
-	return NewErrorResponse(http.StatusInternalServerError, "", "", message, true)
+	return NewErrorResponse(http.StatusInternalServerError, errorCode, title, message, true)
 }
 
 // WithMessage returns a copy of a given error and overrides its messages

@@ -21,6 +21,9 @@ func NewRouter(
 	r.HandleFunc("/ip/{ipAddress}", HandlerWrapper(ipHandler.LookupIp)).
 		Methods("GET")
 
+	r.HandleFunc("/host/{hostname}", HandlerWrapper(ipHandler.LookupHost)).
+		Methods("GET")
+
 	return r
 }
 

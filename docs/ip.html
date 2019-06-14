@@ -179,15 +179,23 @@
             <ul>
               
                 <li>
-                  <a href="#api.IpLookupRequest"><span class="badge">M</span>IpLookupRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#api.IpLookupResponse"><span class="badge">M</span>IpLookupResponse</a>
-                </li>
-              
-                <li>
                   <a href="#api.Location"><span class="badge">M</span>Location</a>
+                </li>
+              
+                <li>
+                  <a href="#api.LookupHostRequest"><span class="badge">M</span>LookupHostRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.LookupHostResponse"><span class="badge">M</span>LookupHostResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#api.LookupIpRequest"><span class="badge">M</span>LookupIpRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#api.LookupIpResponse"><span class="badge">M</span>LookupIpResponse</a>
                 </li>
               
                 <li>
@@ -200,7 +208,11 @@
               
               
                 <li>
-                  <a href="#api.IpLookupResponse.Error"><span class="badge">E</span>IpLookupResponse.Error</a>
+                  <a href="#api.LookupHostResponse.Error"><span class="badge">E</span>LookupHostResponse.Error</a>
+                </li>
+              
+                <li>
+                  <a href="#api.LookupIpResponse.Error"><span class="badge">E</span>LookupIpResponse.Error</a>
                 </li>
               
                 <li>
@@ -223,68 +235,6 @@
       </div>
       <p></p>
 
-      
-        <h3 id="api.IpLookupRequest">IpLookupRequest</h3>
-        <p>GET /ip/123.45.67.89</p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>ip</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>This is a GET parameter in the URL </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="api.IpLookupResponse">IpLookupResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>ip</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>hostnames</td>
-                  <td><a href="#string">string</a></td>
-                  <td>repeated</td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>geolocation</td>
-                  <td><a href="#api.Location">Location</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
       
         <h3 id="api.Location">Location</h3>
         <p></p>
@@ -334,6 +284,130 @@
                 <tr>
                   <td>timezone</td>
                   <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.LookupHostRequest">LookupHostRequest</h3>
+        <p>GET /host?hostname=ipinfo.xyz</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ip</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>This is a GET parameter in the URL </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.LookupHostResponse">LookupHostResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ips</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>hostnames</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>geolocation</td>
+                  <td><a href="#api.Location">Location</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.LookupIpRequest">LookupIpRequest</h3>
+        <p>GET /ip?ipAddress=123.45.67.89</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ip</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>This is a GET parameter in the URL </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="api.LookupIpResponse">LookupIpResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>ip</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>hostnames</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>geolocation</td>
+                  <td><a href="#api.Location">Location</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -399,7 +473,36 @@
       
 
       
-        <h3 id="api.IpLookupResponse.Error">IpLookupResponse.Error</h3>
+        <h3 id="api.LookupHostResponse.Error">LookupHostResponse.Error</h3>
+        <p>These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>INVALID_HOSTNAME</td>
+                <td>0</td>
+                <td><p>400</p></td>
+              </tr>
+            
+              <tr>
+                <td>INTERNAL_ERROR</td>
+                <td>1</td>
+                <td><p>500</p></td>
+              </tr>
+            
+              <tr>
+                <td>NOT_FOUND</td>
+                <td>2</td>
+                <td><p>404</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="api.LookupIpResponse.Error">LookupIpResponse.Error</h3>
         <p>These are the error codes which can be returned by this endpoint. In case of an error, an ErrorResponse will be returned</p>
         <table class="enum-table">
           <thead>

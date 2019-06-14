@@ -70,3 +70,31 @@ func (h *IpHandler) WhatsMyIp(w http.ResponseWriter, r *http.Request) api.HttpRe
 
 	return &api.HttpResponse{Payload: resp, Status: http.StatusOK}
 }
+
+func (h *IpHandler) LookupHost(w http.ResponseWriter, r *http.Request) api.HttpResponseWriter {
+	logger := log.WithFields(log.Fields{"Handler": "LookupHost"})
+
+	vars := mux.Vars(r)
+	hostname, ok := vars["hostname"]
+	if !ok {
+		logger.Debug("Missing hostname in request")
+		return GetMappedError(LOOKUP_HOST, MissingIp)
+	}
+
+	logger = logger.WithFields(log.Fields{"Hostname": hostname})
+	logger.Info("Handling request")
+
+	ipData, err := application.LookupHostData(hostname, logger, h.GeoLocationRepository)
+	if err != nil {
+		switch err {
+		case application.ErrInvalidIp:
+			return GetMappedError(LOOKUP_HOST, InvalidIp)
+		case application.ErrNotFound:
+			return GetMappedError(LOOKUP_HOST, NotFound)
+		default:
+			return GetMappedError(LOOKUP_HOST, InternalError)
+		}
+	}
+
+	return &api.HttpResponse{Payload: ipData, Status: http.StatusOK}
+}
