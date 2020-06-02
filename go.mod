@@ -9,5 +9,5 @@ require (
 	github.com/oschwald/maxminddb-golang v1.3.1 // indirect
 	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/objx v0.1.1 // indirect
-	github.com/ynori7/lilypad v0.0.2
+	github.com/ynori7/lilypad v0.0.3
 )

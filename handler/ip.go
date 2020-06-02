@@ -112,7 +112,7 @@ func (h *IpHandler) LookupHost(r *http.Request) handler.Response {
 	hostname, ok := vars["hostname"]
 	if !ok {
 		logger.Debug("Missing hostname in request")
-		return handler.ErrorResponse(GetMappedError(LOOKUP_HOST, MissingIp))
+		return handler.ErrorResponse(GetMappedError(LOOKUP_HOST, MissingHost))
 	}
 
 	logger = logger.WithFields(log.Fields{"Hostname": hostname})
