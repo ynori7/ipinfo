@@ -16,7 +16,7 @@ func main() {
 		serverHost string
 	)
 
-	errors.UseJsonErrors()
+	errors.UseJSONErrors()
 
 	flag.StringVar(&geoDbPath, "geo-db-path", "./GeoLite2-City.mmdb", "The path to the GeoLite2 city database")
 	flag.StringVar(&serverHost, "server-host", ":8081", "The hostname and port that this API should run on")
