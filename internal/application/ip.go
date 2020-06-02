@@ -3,10 +3,10 @@ package application
 import (
 	"errors"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/ynori7/ipinfo/api"
 	"github.com/ynori7/ipinfo/internal/model"
 	"github.com/ynori7/ipinfo/internal/repository"
+	"github.com/ynori7/lilypad/log"
 )
 
 var (
@@ -16,7 +16,7 @@ var (
 	ErrNotFound        = errors.New("not found")
 )
 
-func LookupIpData(ip string, logger log.FieldLogger, geoIpRepo *repository.GeoLocationRepository) (*api.LookupIpResponse, error) {
+func LookupIpData(ip string, logger log.Logger, geoIpRepo *repository.GeoLocationRepository) (*api.LookupIpResponse, error) {
 	if !model.IsValidIpAddress(ip) {
 		logger.Debug("Invalid ip in request")
 		return nil, ErrInvalidIp
@@ -42,7 +42,7 @@ func LookupIpData(ip string, logger log.FieldLogger, geoIpRepo *repository.GeoLo
 	}, nil
 }
 
-func LookupHostData(hostname string, logger log.FieldLogger, geoIpRepo *repository.GeoLocationRepository) (*api.LookupHostResponse, error) {
+func LookupHostData(hostname string, logger log.Logger, geoIpRepo *repository.GeoLocationRepository) (*api.LookupHostResponse, error) {
 	if !model.IsValidHostname(hostname) {
 		logger.Debug("Invalid hostname in request")
 		return nil, ErrInvalidHostname
